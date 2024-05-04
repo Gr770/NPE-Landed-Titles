@@ -2,7 +2,7 @@
 	type = landed_title
 	text = {
 		trigger = {
-			culture = {
+			root.holder.culture = {
 				is_npe_supported_culture = yes
 				has_cultural_pillar = heritage_arabic
 			}
