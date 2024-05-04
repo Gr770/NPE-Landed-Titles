@@ -1,3 +1,3 @@
 ﻿l_english:
-Title_NoTooltip_ArabicA: "[Localize(Concatenate(ROOT.Title.GetBaseNameNoTierNoTooltip,ROOT.Title.GetHolder.Custom('CharacterCulture')))][ROOT.Title.GetHolder.Custom('CharacterHouseCheckAfter')]"
+Title_NoTooltip_ArabicA: "[ROOT.Title.Custom('TitleTierCheckBefore')][Localize(Concatenate(ROOT.Title.GetNameNoTierNoTooltip,ROOT.Title.GetHolder.Custom('CharacterCulture')))][ROOT.Title.GetHolder.Custom('CharacterHouseCheckAfter')]"
 #Title_NoTooltip_ArabicA: "[ROOT.Title.Custom('TitleTierCheckBefore')][Localize(Concatenate(ROOT.Title.GetNameNoTierNoTooltip,ROOT.Title.GetHolder.Custom('CharacterCulture')))][ROOT.Title.GetHolder.Custom('CharacterHouseCheckAfter')]"

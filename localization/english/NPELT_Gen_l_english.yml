@@ -1,0 +1,11 @@
+﻿l_english:
+
+Title_Tier_Gen_NPE: "[Localize(Concatenate(Concatenate(Concatenate(ROOT.Title.Custom('TitleTier'),ROOT.Title.GetHolder.Custom('TitleGov')),ROOT.Title.GetHolder.Custom('CharacterCulture')),ROOT.Title.GetHolder.Custom('CharacterReligion'))]"
+Title_Tier_Gen_NPE_After: " [Localize(Concatenate(Concatenate(Concatenate(ROOT.Title.Custom('TitleTier'),ROOT.Title.GetHolder.Custom('TitleGov')),ROOT.Title.GetHolder.Custom('CharacterCulture')),ROOT.Title.GetHolder.Custom('CharacterReligion'))]"
+Title_Tier_Gen_NPE_Before: "[Localize(Concatenate(Concatenate(Concatenate(ROOT.Title.Custom('TitleTier'),ROOT.Title.GetHolder.Custom('TitleGov')),ROOT.Title.GetHolder.Custom('CharacterCulture')),ROOT.Title.GetHolder.Custom('CharacterReligion'))] "
+Barony_Gen_NPE: "[Localize(Concatenate(Concatenate(Concatenate(Barony,ROOT.Title.Custom('TitleHolding')),ROOT.Title.GetHolder.Custom('CharacterCulture')),ROOT.Title.GetHolder.Custom('CharacterReligion'))]"
+Barony_Gen_NPE_After: " [Localize(Concatenate(Concatenate(Concatenate(Barony,ROOT.Title.Custom('TitleHolding')),ROOT.Title.GetHolder.Custom('CharacterCulture')),ROOT.Title.GetHolder.Custom('CharacterReligion'))]"
+Barony_Gen_NPE_Before: "[Localize(Concatenate(Concatenate(Concatenate(Barony,ROOT.Title.Custom('TitleHolding')),ROOT.Title.GetHolder.Custom('CharacterCulture')),ROOT.Title.GetHolder.Custom('CharacterReligion'))] "
+Upper_Title_Tier_Gen_NPE: "[Localize(Concatenate(Concatenate(Concatenate(ROOT.Title.Custom('TitleTier'),_default),ROOT.Title.GetDeJureLiege.GetHolder.Custom('CharacterCulture')),ROOT.Title.GetDeJureLiege.GetHolder.Custom('CharacterReligion'))]"
+Upper_Title_Tier_Gen_NPE_After: " Localize(Concatenate(Concatenate(Concatenate(ROOT.Title.Custom('TitleTier'),_default),ROOT.Title.GetDeJureLiege.GetHolder.Custom('CharacterCulture')),ROOT.Title.GetDeJureLiege.GetHolder.Custom('CharacterReligion'))]"
+Upper_Title_Tier_Gen_NPE_Before: "Localize(Concatenate(Concatenate(Concatenate(ROOT.Title.Custom('TitleTier'),_default),ROOT.Title.GetDeJureLiege.GetHolder.Custom('CharacterCulture')),ROOT.Title.GetDeJureLiege.GetHolder.Custom('CharacterReligion'))] "

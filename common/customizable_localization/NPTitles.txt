@@ -1,5 +1,6 @@
 ﻿TitleNoTooltip = {
 	type = landed_title
+    log_loc_errors = no
 	text = {
 		trigger = {
 			root.holder.culture = {
@@ -12,5 +13,408 @@
 	text = {
 		fallback = yes
 		localization_key = TitleNoTooltip_Default
+	}
+}
+TitleTierCheck = {
+	type = landed_title
+    log_loc_errors = no
+	text = {
+		trigger = {
+			tier = 1
+			title_province = {
+				has_holding = yes
+			}
+		}
+		localization_key = Barony_Gen_NPE
+	}
+	text = {
+		trigger = {
+			exists = holder
+		}
+		localization_key = Title_Tier_Gen_NPE
+	}
+	text = {
+		trigger = {
+			exists = de_jure_liege.holder
+		}
+		localization_key = Upper_Title_Tier_Gen_NPE
+	}
+    text = {
+        fallback = yes
+		localization_key = Gui_blank
+    }
+}
+TitleTierCheckAfter = {
+	parent = TitleTierCheck
+	suffix = "_After"
+}
+TitleTierCheckBefore = {
+	parent = TitleTierCheck
+	suffix = "_Before"
+}
+TitleTier = {
+    type = landed_title
+    log_loc_errors = no
+    text = {
+        trigger = {
+            tier = tier_empire
+        }
+        localization_key = Empire
+    }
+    text = {
+        trigger = {
+            tier = tier_kingdom
+            holder ?= {
+				OR = {
+					is_independent_ruler = yes
+					dynasty ?= {
+						any_in_list = {
+							variable = dynasty_independent
+							this = root
+						}
+					}
+				}
+            }
+        }
+        localization_key = independent_kingdom
+    }
+    text = {
+        trigger = {
+            tier = tier_kingdom
+        }
+        localization_key = Kingdom
+    }
+    text = {
+        trigger = {
+            tier = tier_duchy
+            holder ?= {
+				OR = {
+					is_independent_ruler = yes
+					dynasty ?= {
+						any_in_list = {
+							variable = dynasty_independent
+							this = root
+						}
+					}
+				}
+            }
+        }
+        localization_key = independent_duchy
+    }
+    text = {
+        trigger = {
+            holder ?= {
+				OR = {
+					has_government = feudal_government
+					has_government = theocracy_government
+				}
+				OR = {
+					liege.primary_title ?= {
+						has_title_law = princely_elective_succession_law
+						any_elector = {
+							this = root
+						}
+					}
+					dynasty ?= {
+						any_in_list = {
+							variable = dynasty_hre_prince_elector
+							this = root
+						}
+					}
+				}
+			}
+        }
+        localization_key = HRE_prince_electorate
+    }
+    text = {
+        trigger = {
+            holder ?= {
+				OR = {
+					vassal_contract_has_flag = has_march_contract
+					dynasty ?= {
+						any_in_list = {
+							variable = dynasty_march
+							this = root
+						}
+					}
+				}
+			}
+        }
+        localization_key = March
+    }
+    text = {
+        trigger = {
+            tier = tier_duchy
+            holder ?= {
+				OR = {
+					vassal_contract_has_flag = has_palatinate_contract
+					dynasty ?= {
+						any_in_list = {
+							variable = dynasty_palatinate
+							this = root
+						}
+					}
+				}
+			}
+        }
+        localization_key = DuchyPalatinate
+    }
+    text = {
+        trigger = {
+            holder ?= {
+				OR = {
+					has_government = feudal_government
+					has_government = theocracy_government
+				}
+				OR = {
+					hre_prince_check = yes
+					dynasty ?= {
+						any_in_list = {
+							variable = dynasty_hre_prince
+							this = root
+						}
+					}
+				}
+			}
+        }
+        localization_key = HRE_princedom
+    }
+    text = {
+        trigger = {
+            tier = tier_duchy
+        }
+        localization_key = Duchy
+    }
+    text = {
+        trigger = {
+            tier = tier_county
+            holder ?= {
+				OR = {
+					is_independent_ruler = yes
+					dynasty ?= {
+						any_in_list = {
+							variable = dynasty_independent
+							this = root
+						}
+					}
+				}
+			}
+        }
+        localization_key = independent_county
+    }
+    text = {
+        trigger = {
+            tier = tier_county
+            holder ?= {
+				OR = {
+					vassal_contract_has_flag = has_palatinate_contract
+					dynasty ?= {
+						any_in_list = {
+							variable = dynasty_palatinate
+							this = root
+						}
+					}
+				}
+			}
+        }
+        localization_key = CountyPalatinate
+    }
+    text = {
+        trigger = {
+            tier = tier_county
+            holder ?= {
+				top_liege ?= {
+					culture = {
+						has_cultural_pillar = language_anglic
+					}
+				}
+				culture = {
+					earl_check = yes
+				}
+				has_government = feudal_government
+			}
+        }
+        localization_key = Earldom
+    }
+    text = {
+        trigger = {
+            tier = tier_county
+        }
+        localization_key = County
+    }
+    text = {
+        fallback = yes
+        localization_key = Default
+    }
+}
+TitleGov = {
+    type = landed_title
+    log_loc_errors = no
+    #text = {
+    #    trigger = {
+    #        OR = {
+    #            root.faith.religious_head = root
+    #            any_in_global_list = {
+    #                variable = global_list_dead_hofs
+    #                this = root
+    #            }
+    #        }
+    #    }
+    #    localization_key = _hof
+    #}
+    text = {
+        trigger = {
+            OR = {
+                has_government = theocracy_government
+                dynasty ?= {
+                    any_in_list = {
+                        variable = dynasty_theocrats
+                        this = root
+                    }
+                }
+            }
+        }
+        localization_key = _theo
+    }
+    #text = {
+    #    trigger = {
+    #        OR = {
+    #            has_government = holy_order_government
+    #            #AND = {
+    #            #    exists = global_var:KoH_is_loaded
+    #            #    has_government = holy_order_county_government
+    #            #}
+    #            dynasty ?= {
+    #                any_in_list = {
+    #                    variable = dynasty_HO
+    #                    this = root
+    #                }
+    #            }
+    #        }
+    #    }
+    #    localization_key = _ho
+    #}
+    text = {
+        trigger = {
+            OR = {
+                AND = {
+                    has_government = feudal_government
+                    OR = {
+                        has_title = title:e_byzantium
+                        top_liege ?= {
+                            has_title = title:e_byzantium
+                        }
+                    }
+                }
+                dynasty ?= {
+                    any_in_list = {
+                        variable = dynasty_byzantine
+                        this = root
+                    }
+                }
+            }
+        }
+        localization_key = _theme
+    }
+    text = {
+        trigger = {
+            OR = {
+                has_government = feudal_government
+                has_government = clan_government
+                dynasty ?= {
+                    any_in_list = {
+                        variable = dynasty_feudalclan
+                        this = root
+                    }
+                }
+            }
+        }
+        localization_key = _feudalclan
+    }
+    text = {
+        trigger = {
+            OR = {
+                has_government = tribal_government
+                dynasty ?= {
+                    any_in_list = {
+                        variable = dynasty_tribe
+                        this = root
+                    }
+                }
+            }
+        }
+        localization_key = _tribal
+    }
+    text = {
+        trigger = {
+            OR = {
+                has_government = republic_government
+                dynasty ?= {
+                    any_in_list = {
+                        variable = dynasty_repub
+                        this = root
+                    }
+                }
+            }
+        }
+        localization_key = _republic
+    }
+    #text = {
+    #    trigger = {
+    #        OR = {
+    #            has_government = mercenary_government
+    #            dynasty ?= {
+    #                any_in_list = {
+    #                    variable = dynasty_merc
+    #                    this = root
+    #                }
+    #            }
+    #        }
+    #    }
+    #    localization_key = _merc
+    #}
+    text = {
+        fallback = yes
+        localization_key = _default
+    }
+}
+TitleHolding = {
+	type = landed_title
+    log_loc_errors = no
+	text = {
+		trigger = {
+			title_province ?= {
+				has_holding_type = castle_holding
+			}
+		}
+		localization_key = _castle
+	}
+	text = {
+		trigger = {
+			title_province ?= {
+				has_holding_type = tribal_holding
+			}
+		}
+		localization_key = _tribe
+	}
+	text = {
+		trigger = {
+			title_province ?= {
+				has_holding_type = city_holding
+			}
+		}
+		localization_key = _city
+	}
+	text = {
+		trigger = {
+			title_province ?= {
+				has_holding_type = church_holding
+			}
+		}
+		localization_key = _temple
+	}
+	text = {
+		fallback = yes
+		localization_key = Gui_blank
 	}
 }
