@@ -1,0 +1,16 @@
+﻿TitleNoTooltip = {
+	type = landed_title
+	text = {
+		trigger = {
+			culture = {
+				is_npe_supported_culture = yes
+				has_cultural_pillar = heritage_arabic
+			}
+		}
+		localization_key = Title_NoTooltip_ArabicA
+	}
+	text = {
+		fallback = yes
+		localization_key = TitleNoTooltip_Default
+	}
+}

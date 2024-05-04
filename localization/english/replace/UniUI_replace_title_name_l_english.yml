@@ -1,0 +1,27 @@
+﻿l_english:
+UniUICharWindowTitleName: "[Title.Custom('TitleNoTooltip')|U]"
+UniUICharWindowTitleNameTT: "[Title.GetNameNoTooltip|U]"
+
+UniUITitleWindowTitleName: "[TitleViewWindow.GetTitle.GetNameNoTooltip|U]"
+UniUITitleWindowTitleNameTT: "[Title.GetName]"
+
+UniUIGeneralTitleName: "[Title.GetNameNoTooltip]"
+UniUIGeneralClaimName: "[Claim.GetTitle.GetNameNoTooltip]"
+
+UniUIGeneralClaimTitleName: "[ClaimTitleItem.GetTitle.GetNameNoTooltip]"
+
+UniUIGeneralLobbyTitleName: "[Character.GetPrimaryTitle.GetNameNoTooltip|U]"
+
+UniUIGeneralHoldingCountyName: "[HoldingView.GetCountyTitle.GetNameNoTooltip]"
+UniUIGeneralHoldingProvinceName: "[HoldingView.GetProvince.GetTitle.GetNameNoTierNoTooltip]"
+UniUIGeneralHoldingProvinceNameTT: "[HoldingView.GetProvince.GetTitle.GetNameNoTierNoTooltip]"
+
+UniUIGeneralHoldingProvinceNoTierName: "[HoldingView.GetProvince.GetTitle.GetNameNoTierNoTooltip]"
+
+UniUIGeneralTitleNoTierName: "[Title.GetNameNoTier]"
+
+UniUIRealmTitleNoTierName: "[GetPlayer.GetPrimaryTitle.GetNameNoTooltip|U]"
+
+UniUIRealmScopeTitleNoTierName: "[Scope.Title.GetName]"
+
+UniUISuccTitleName: "[SuccessionElectionWindow.GetTitle.GetNameNoTooltip|U]"
