@@ -1,0 +1,12 @@
+﻿on_game_start = {
+	on_actions = {
+		on_NPELT_start
+	}
+}
+on_NPELT_start = {
+    effect = {
+        title:e_arabia = {
+            set_title_name = Arabia_arabic
+        }
+    }
+}

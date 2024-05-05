@@ -49276,6 +49276,8 @@ e_arabia = {
 
 	capital = c_damascus # Damascus
 
+	definite_form = yes
+
 	can_destroy = {
 		custom_tooltip = {
 			text = persian_struggle.tt.forbid_title_destruction

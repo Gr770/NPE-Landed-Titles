@@ -3,7 +3,7 @@
     log_loc_errors = no
 	text = {
 		trigger = {
-			root.holder.culture = {
+			root.holder.culture ?= {
 				is_npe_supported_culture = yes
 				has_cultural_pillar = heritage_arabic
 			}
@@ -20,7 +20,7 @@ TitleTierCheck = {
     log_loc_errors = no
 	text = {
 		trigger = {
-			tier = 1
+			tier = tier_barony
 			title_province = {
 				has_holding = yes
 			}
@@ -29,12 +29,14 @@ TitleTierCheck = {
 	}
 	text = {
 		trigger = {
+			tier > tier_barony
 			exists = holder
 		}
 		localization_key = Title_Tier_Gen_NPE
 	}
 	text = {
 		trigger = {
+			tier > tier_barony
 			exists = de_jure_liege.holder
 		}
 		localization_key = Upper_Title_Tier_Gen_NPE
@@ -248,7 +250,7 @@ TitleTier = {
     }
 }
 TitleGov = {
-    type = landed_title
+    type = character
     log_loc_errors = no
     #text = {
     #    trigger = {
@@ -417,4 +419,29 @@ TitleHolding = {
 		fallback = yes
 		localization_key = Gui_blank
 	}
+}
+TitleHouseCheck = {
+	type = character
+	text = {
+		trigger = {
+			house.var:name_founder ?= {
+				culture = {
+					is_npe_supported_culture = yes
+				}
+			}
+		}
+		localization_key = Supported_House
+	}
+	text = {
+		fallback = yes
+		localization_key = Gui_blank
+	}
+}
+TitleHouseCheckAfter = {
+	parent = TitleHouseCheck
+	suffix = "_After"
+}
+TitleHouseCheckBefore = {
+	parent = TitleHouseCheck
+	suffix = "_Before"
 }

@@ -1,0 +1,566 @@
+﻿found_cadet_house_decision_effect = {
+	hidden_effect = {
+		house.house_head = {
+			save_scope_as = former_house_head
+		}
+		house = {
+			save_scope_as = former_house
+		}
+		add_achievement_flag_effect = { FLAG = achievement_a_house_of_my_own_flag }
+	}
+	create_cadet_branch = yes
+	add_prestige = $PRESTIGE$
+	hidden_effect = {
+		save_scope_as = new_head
+		house = {
+			save_scope_as = new_house
+		}
+		send_interface_toast = {
+			type = msg_created_new_house
+			title = created_cadet_branch_toast_new_house_desc
+			left_icon = scope:new_head
+			right_icon = scope:former_house_head
+			desc = created_cadet_branch_toast_new_house_other_tt
+		}
+		if = {
+			limit = {
+				any_artifact = {
+                	trigger_if = {
+                    	limit = { exists = var:banner_dynasty }
+                    	var:banner_dynasty = root.dynasty
+                    }
+                    trigger_else = { always = no }
+                    artifact_owner = {
+                    	NOT = { this = root }
+           				in_diplomatic_range = root
+                    }
+                    NOT = {
+                    	any_artifact_house_claimant = {
+                    		this = scope:new_house
+                    	}
+                	}
+                }
+			}
+			random_artifact = {
+				limit = {
+					exists = var:banner_dynasty
+                    var:banner_dynasty = root.dynasty
+                    artifact_owner = { in_diplomatic_range = root }
+                    NOT = {
+                    	any_artifact_house_claimant = {
+                    		this = scope:new_house
+                    	}
+                	}
+				}
+				save_scope_as = new_branch_dynasty_banner
+			}
+			scope:new_house = { add_house_artifact_claim = scope:new_branch_dynasty_banner }
+		}
+        if = {
+            limit = {
+                culture = {
+                    is_npe_supported_culture = yes
+                }
+            }
+            set_global_variable = {
+				name = temp_head
+				value = scope:new_head
+			}
+            scope:new_house = {
+				set_house_name = "[Localize(Concatenate(Concatenate(GetGlobalVariable('temp_head').Char.GetFirstNameNoTooltip, GetGlobalVariable('temp_head').Char.Custom('CharacterCulture')), '_set_house'))]"
+                set_variable = {
+                    name = name_founder
+                    value = scope:new_head
+                }
+            }
+			remove_global_variable = temp_head
+        }
+		every_player = {
+			limit = {
+				exists = house
+				house = scope:new_house
+				NOT = { this = $CHARACTER$ }
+			}
+			send_interface_toast = {
+				type = msg_created_new_house
+				title = created_cadet_branch_toast_new_house_desc
+				left_icon = scope:new_head
+				desc = created_cadet_branch_toast_new_house_other_tt
+			}
+		}
+	}
+}
+game_rule_create_spouse_and_children = {
+	$CHARACTER$ = {
+		#If not married, create spouse
+		if = {
+			limit = {
+				is_married = no
+			}
+			create_character = {
+				location = $CHARACTER$.location
+				culture = $CHARACTER$.culture
+				faith = $CHARACTER$.faith
+				gender_female_chance = $CHARACTER$.marriage_gender_adjusted_female_chance
+				age = $CHARACTER$.age
+				save_scope_as = spouse
+				after_creation = {
+					if = {
+						limit = {
+							culture = {
+								is_npe_supported_culture = yes
+							}
+						}
+						name_gen_effect = yes
+					}
+				}
+			}
+			if = {
+				limit = { is_male = yes }
+				marry = scope:spouse
+			}
+			else = {
+				marry_matrilineal = scope:spouse
+			}
+		}
+		else = {
+			primary_spouse = { save_scope_as = spouse }
+		}
+
+		if = {
+			limit = { is_male = yes }
+			save_scope_as = father
+			scope:spouse = {
+				if = {
+					limit = {
+						is_female = yes
+					}
+					save_scope_as = mother
+				}
+			}
+		}
+		else = {
+			save_scope_as = mother
+			scope:spouse = {
+				if = {
+					limit = {
+						is_male = yes
+					}
+					save_scope_as = father
+				}
+			}
+		}
+
+		#Create child 1 (mother age 17+)
+		if = {
+			limit = {
+				exists = scope:mother
+				scope:mother.age >= 17
+			}
+			if = { #Do we have a father saved?
+				limit = {
+					exists = scope:father
+				}
+				create_character = {
+					location = $CHARACTER$.location
+					culture = $CHARACTER$.culture
+					faith = $CHARACTER$.faith
+					gender_female_chance = {
+						if = {
+							limit = {
+								is_ruler = yes
+								$CHARACTER$ = { has_realm_law = male_only_law }
+							}
+							value = 0
+						}
+						else = {
+							limit = {
+								is_ruler = yes
+								$CHARACTER$ = { has_realm_law = female_only_law }
+							}
+							value = 100
+						}
+						else = {
+							value = 50
+						}
+					}
+					age = {
+						value = scope:mother.age
+						subtract = 17
+					}
+					father = scope:father
+					mother = scope:mother
+					dynasty = inherit
+					save_scope_as = child_1
+					after_creation = {
+						if = {
+							limit = {
+								culture = {
+									is_npe_supported_culture = yes
+								}
+							}
+							name_gen_effect = yes
+						}
+						father.dynasty ?= {
+							add_to_variable_list = { name = dynasty_list_ctp_sons target = scope:child_1 }
+						}
+						if = {
+							limit = {
+								father = {
+									is_lowborn = yes
+								}
+							}
+							add_to_global_variable_list = { name = global_list_ctp_sons target = scope:child_1 }
+						}
+					}
+				}
+			}
+			else = { #If we don't have a father we generate a child without
+				create_character = {
+					location = $CHARACTER$.location
+					culture = $CHARACTER$.culture
+					faith = $CHARACTER$.faith
+					gender_female_chance = {
+						if = {
+							limit = {
+								is_ruler = yes
+								$CHARACTER$ = { has_realm_law = male_only_law }
+							}
+							value = 0
+						}
+						else = {
+							limit = {
+								is_ruler = yes
+								$CHARACTER$ = { has_realm_law = female_only_law }
+							}
+							value = 100
+						}
+						else = {
+							value = 50
+						}
+					}
+					age = {
+						value = scope:mother.age
+						subtract = 17
+					}
+					mother = scope:mother
+					dynasty = inherit
+					save_scope_as = child_1
+					after_creation = {
+						if = {
+							limit = {
+								culture = {
+									is_npe_supported_culture = yes
+								}
+							}
+							name_gen_effect = yes
+						}
+						father.dynasty ?= {
+							add_to_variable_list = { name = dynasty_list_ctp_sons target = scope:child_1 }
+						}
+						if = {
+							limit = {
+								father = {
+									is_lowborn = yes
+								}
+							}
+							add_to_global_variable_list = { name = global_list_ctp_sons target = scope:child_1 }
+						}
+					}
+				}
+			}
+		}
+		#Create child 1 (no mother)
+		else_if = {
+			limit = {
+				NOT = { exists = scope:mother }
+			}
+			create_character = {
+				location = $CHARACTER$.location
+				culture = $CHARACTER$.culture
+				faith = $CHARACTER$.faith
+				gender_female_chance = {
+					if = {
+						limit = {
+							is_ruler = yes
+							$CHARACTER$ = { has_realm_law = male_only_law }
+						}
+						value = 0
+					}
+					else = {
+						limit = {
+							is_ruler = yes
+							$CHARACTER$ = { has_realm_law = female_only_law }
+						}
+						value = 100
+					}
+					else = {
+						value = 50
+					}
+				}
+				age = {
+					value = scope:mother.age
+					subtract = 17
+				}
+				father = scope:father
+				dynasty = inherit
+				save_scope_as = child_1
+				after_creation = {
+					if = {
+						limit = {
+							culture = {
+								is_npe_supported_culture = yes
+							}
+						}
+						name_gen_effect = yes
+					}
+					father.dynasty ?= {
+						add_to_variable_list = { name = dynasty_list_ctp_sons target = scope:child_1 }
+					}
+					if = {
+						limit = {
+							father = {
+								is_lowborn = yes
+							}
+						}
+						add_to_global_variable_list = { name = global_list_ctp_sons target = scope:child_1 }
+					}
+				}
+			}
+		}
+
+		#Create child 2 (mother age 25+)
+		if = {
+			limit = {
+				exists = scope:mother
+				scope:mother.age >= 25
+			}
+
+			if = { #Do we have a father saved?
+				limit = {
+					exists = scope:father
+				}
+				create_character = {
+					location = $CHARACTER$.location
+					culture = $CHARACTER$.culture
+					faith = $CHARACTER$.faith
+					gender_female_chance = {
+						value = 50
+					}
+					age = {
+						value = scope:mother.age
+						subtract = 25
+					}
+					father = scope:father
+					mother = scope:mother
+					dynasty = inherit
+					save_scope_as = child_2
+					after_creation = {
+						if = {
+							limit = {
+								culture = {
+									is_npe_supported_culture = yes
+								}
+							}
+							name_gen_effect = yes
+						}
+					}
+				}
+			}
+			else = { #If we don't have a father we generate a child without
+				create_character = {
+					location = $CHARACTER$.location
+					culture = $CHARACTER$.culture
+					faith = $CHARACTER$.faith
+					gender_female_chance = {
+						value = 50
+					}
+					age = {
+						value = scope:mother.age
+						subtract = 25
+					}
+					mother = scope:mother
+					dynasty = inherit
+					save_scope_as = child_2
+					after_creation = {
+						if = {
+							limit = {
+								culture = {
+									is_npe_supported_culture = yes
+								}
+							}
+							name_gen_effect = yes
+						}
+						father.dynasty ?= {
+							add_to_variable_list = { name = dynasty_list_ctp_sons target = scope:child_2 }
+						}
+						if = {
+							limit = {
+								father = {
+									is_lowborn = yes
+								}
+							}
+							add_to_global_variable_list = { name = global_list_ctp_sons target = scope:child_2 }
+						}
+					}
+				}
+			}
+		}
+
+		#Create child 3 (mother age 33+)
+		if = {
+			limit = {
+				exists = scope:mother
+				scope:mother.age >= 33
+			}
+
+			if = { #Do we have a father saved?
+				limit = {
+					exists = scope:father
+				}
+				create_character = {
+					location = $CHARACTER$.location
+					culture = $CHARACTER$.culture
+					faith = $CHARACTER$.faith
+					gender_female_chance = {
+						value = 50
+					}
+					age = {
+						value = scope:mother.age
+						subtract = 33
+					}
+					father = scope:father
+					mother = scope:mother
+					dynasty = inherit
+					save_scope_as = child_3
+					after_creation = {
+						if = {
+							limit = {
+								culture = {
+									is_npe_supported_culture = yes
+								}
+							}
+							name_gen_effect = yes
+						}
+					}
+				}
+			}
+			else = { #If we don't have a father we generate a child without
+				create_character = {
+					location = $CHARACTER$.location
+					culture = $CHARACTER$.culture
+					faith = $CHARACTER$.faith
+					gender_female_chance = {
+						value = 50
+					}
+					age = {
+						value = scope:mother.age
+						subtract = 33
+					}
+					mother = scope:mother
+					dynasty = inherit
+					save_scope_as = child_3
+					after_creation = {
+						if = {
+							limit = {
+								culture = {
+									is_npe_supported_culture = yes
+								}
+							}
+							name_gen_effect = yes
+							father.dynasty ?= {
+								add_to_variable_list = { name = dynasty_list_ctp_sons target = scope:child_3 }
+							}
+							if = {
+								limit = {
+									father = {
+										is_lowborn = yes
+									}
+								}
+								add_to_global_variable_list = { name = global_list_ctp_sons target = scope:child_3 }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+dynasty_effect_ne = {
+	if = {
+		limit = {
+			exists = dynasty
+			NOT = {
+				exists = house.var:name_founder
+			}
+		}
+		save_scope_as = thebaron
+		set_global_variable = {
+			name = temp_head
+			value = scope:thebaron
+		}
+		random_list = {
+			100 = {
+				scope:thebaron.dynasty = {
+					set_dynasty_name = "[Localize(Concatenate(Concatenate(GetGlobalVariable('temp_head').Char.GetFirstNameNoTooltip, GetGlobalVariable('temp_head').Char.Custom('CharacterCulture')), '_set_house'))]"
+				}
+				scope:thebaron.house = {
+					set_house_name = "[Localize(Concatenate(Concatenate(GetGlobalVariable('temp_head').Char.GetFirstNameNoTooltip, GetGlobalVariable('temp_head').Char.Custom('CharacterCulture')), '_set_house'))]"
+					set_variable = {
+						name = name_founder
+						value = scope:thebaron
+					}
+				}
+			}
+			0 = {
+				scope:thebaron.dynasty = {
+					set_dynasty_name = "[Localize(Concatenate(Concatenate(GetGlobalVariable('temp_head').Char.GetPrimaryTitle.GetBaseNameNoTierNoTooltip, GetGlobalVariable('temp_head').Char.Custom('CharacterCulture')), '_set_house'))]"
+				}
+				scope:thebaron.house = {
+					set_house_name = "[Localize(Concatenate(Concatenate(GetGlobalVariable('temp_head').Char.GetPrimaryTitle.GetBaseNameNoTierNoTooltip, GetGlobalVariable('temp_head').Char.Custom('CharacterCulture')), '_set_house'))]"
+					set_variable = {
+						name = name_founder
+						value = scope:thebaron.primary_title
+					}
+				}
+			}
+		}
+		remove_global_variable = temp_head
+	}
+}
+house_effect_ne = {
+	if = {
+		limit = {
+			exists = house
+			NOT = {
+				exists = house.var:name_founder
+			}
+		}
+		save_scope_as = thebaron
+		set_global_variable = {
+			name = temp_head
+			value = scope:thebaron
+		}
+		random_list = {
+			100 = {
+				scope:thebaron.house = {
+					set_house_name = "[Localize(Concatenate(Concatenate(GetGlobalVariable('temp_head').Char.GetFirstNameNoTooltip, GetGlobalVariable('temp_head').Char.Custom('CharacterCulture')), '_set_house'))]"
+					set_variable = {
+						name = name_founder
+						value = scope:thebaron
+					}
+				}
+			}
+			0 = {
+				scope:thebaron.house = {
+					set_house_name = "[Localize(Concatenate(Concatenate(GetGlobalVariable('temp_head').Char.GetPrimaryTitle.GetBaseNameNoTierNoTooltip, GetGlobalVariable('temp_head').Char.Custom('CharacterCulture')), '_set_house'))]"
+					set_variable = {
+						name = name_founder
+						value = scope:thebaron.primary_title
+					}
+				}
+			}
+		}
+		remove_global_variable = temp_head
+	}
+}
