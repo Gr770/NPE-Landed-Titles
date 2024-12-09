@@ -5,8 +5,8 @@
 }
 on_NPELT_start = {
     effect = {
-        title:e_arabia = {
-            set_title_name = Arabia_arabic
+        title:k_sweden = {
+            set_title_name = Sweden_swedan
         }
     }
 }
