@@ -2,4 +2,18 @@
 Sweden_swedan: "Svearike"
 Sweden_swedan_gen: " Svea"
 
+Wicklow_swedan: "Víkingaló"
+Wicklow_swedan_adj: "Víkingalóar"
+Wicklow_swedan_gen: " Víkingalóar"
+Wicklow_swedan_house_male: "Víkingalóa"
+Wicklow_swedan_house_female: "Víkingalóa"
+Wicklow_swedan_house: "Víkingalóa"
+
+Dublin_swedan: "Dyflinn"
+Dublin_swedan_adj: "Dyflina"
+Dublin_swedan_gen: " Dyflins"
+Dublin_swedan_house_male: "Dyflina"
+Dublin_swedan_house_female: "Dyflina"
+Dublin_swedan_house: "Dyflina"
+
 InvalidTitle_swedan_gen: ""
